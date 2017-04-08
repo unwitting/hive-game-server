@@ -4,8 +4,10 @@ const shortid = require('shortid')
 const { log } = require('peasy-log')
 const { Game } = require('hive-game-core')
 const { RemotePlayer } = require('./lib/player')
+const ua = require('universal-analytics')
 
 const app = express()
+const analytics = ua('UA-61069916-12', { https: true })
 
 const gamesInProgress = {}
 const waitingPlayers = {}
@@ -40,6 +42,7 @@ app.get('/game/free', (req, res) => {
     const whitePlayer = [remotePlayer, matchedPlayer][whiteIndex]
     const blackPlayer = [remotePlayer, matchedPlayer][(whiteIndex + 1) % 2]
     const game = new Game(whitePlayer, blackPlayer, { logFn: log })
+    analytics.event('Games', 'Create game', game.id).send()
     delete waitingPlayers[matchedPlayerToken]
     gamesInProgress[matchedPlayerToken] = game
     game.begin()

@@ -4,7 +4,8 @@
     "hive-game-core": "^1.0.9",
     "lodash": "^4.17.4",
     "peasy-log": "^1.0.2",
-    "shortid": "^2.2.8"
+    "shortid": "^2.2.8",
+    "universal-analytics": "^0.4.13"
   },
   "engines": {
     "node": ">=7.6"
