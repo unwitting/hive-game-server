@@ -57,25 +57,13 @@ app.get('/game/status/:token', (req, res) => {
   if (!game) {
     return res.status(404).end()
   }
-  return res.send({ status: 'IN_PROGRESS', token, state: game.state })
-})
-
-app.get('/game/status/:token/ack/:hash', (req, res) => {
-  const { token, hash } = req.params
-  log(`_Game state ack_ request for token **${token}** from player **${req.playerId}** with state hash **${hash}**`)
-  const game = gamesInProgress[token]
-  if (!game) {
-    return res.status(404).end()
-  }
-  const player = game.getPlayerById(req.playerId)
-  if (!player) {
-    return res.status(404).end()
-  }
-  if (player.acknowledgeStateByPlayer(game, hash)) {
-    return res.status(200).send()
-  } else {
-    return res.status(400).send({ status: 'HASH_MISMATCH' })
-  }
+  const state = game.state
+  return res.send({
+    status: state.gameOver ? 'GAME_OVER' : 'IN_PROGRESS',
+    token,
+    state: state.state,
+    hash: state.hash
+  })
 })
 
 app.get('/game/:token/move/:move/:hash', (req, res) => {
