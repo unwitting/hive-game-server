@@ -68,7 +68,7 @@ app.get('/game/status/:token', (req, res) => {
     return res.status(404).end()
   }
   const state = game.state
-  if (state.gameOver) {
+  if (state.state.gameOver) {
     if (gameOverAcked[token] === undefined) { gameOverAcked[token] = 0 }
     gameOverAcked[token] += 1
     if (gameOverAcked[token] >= 2) {
@@ -103,8 +103,23 @@ app.get('/game/:token/move/:move/:hash', requireAuth, (req, res) => {
   }
 })
 
+function cleanOutOutGames() {
+  try {
+    log(`_Cleaning out_ old games`)
+    for (const token of _.keys(gamesInProgress)) {
+      const game = gamesInProgress[token]
+      if (game.timeSinceLastChange > 10000 && !game.gameOver) {
+        log(`_Cleaning out_ expired game **${token}**`)
+        game.finishDueToTimeout()
+      }
+    }
+  } catch(e) {}
+  setTimeout(cleanOutOutGames, 5000)
+}
+
 if (!process.env.PORT) { throw 'You must specifiy a PORT environment variable' }
 const port = parseInt(process.env.PORT, 10)
 app.listen(port, () => {
   log(`~~App listening~~ on port **${port}**`)
+  cleanOutOutGames()
 })

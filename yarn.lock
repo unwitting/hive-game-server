@@ -251,9 +251,9 @@ hawk@~3.1.3:
     hoek "2.x.x"
     sntp "1.x.x"
 
-hive-game-core@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/hive-game-core/-/hive-game-core-1.0.10.tgz#7437b785275946fee099dee28c992d32bcdd9bbc"
+hive-game-core@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/hive-game-core/-/hive-game-core-1.0.12.tgz#0899f3ec87eb2beb223f2cfbe876e1ef8a3faac8"
   dependencies:
     jshashes "^1.0.6"
     lodash "^4.17.4"
