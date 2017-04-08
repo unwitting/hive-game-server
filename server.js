@@ -31,7 +31,7 @@ function requireAuth(req, res, next) {
   next()
 }
 
-app.get(requireAuth, '/game/free', (req, res) => {
+app.get('/game/free', requireAuth, (req, res) => {
   log(`_Free game_ request from player **${req.playerId}**`)
   log(`_Creating_ new RemotePlayer(**${req.playerId}**)`)
   const remotePlayer = new RemotePlayer(req.playerId, { logFn: log })
@@ -85,7 +85,7 @@ app.get('/game/status/:token', (req, res) => {
   })
 })
 
-app.get(requireAuth, '/game/:token/move/:move/:hash', (req, res) => {
+app.get('/game/:token/move/:move/:hash', requireAuth, (req, res) => {
   const { token, move, hash } = req.params
   log(`_Move_ request for token **${token}** from player **${req.playerId}** with move string **${move}**`)
   const game = gamesInProgress[token]
