@@ -13,6 +13,7 @@ const analytics = ua(process.env.GA_ID, { https: true })
 
 const gamesInProgress = {}
 const waitingPlayers = {}
+const gameOverAcked = {}
 
 app.use('*', (req, res, next) => {
   // TODO secure auth
@@ -67,6 +68,15 @@ app.get('/game/status/:token', (req, res) => {
     return res.status(404).end()
   }
   const state = game.state
+  if (state.gameOver) {
+    if (gameOverAcked[token] === undefined) { gameOverAcked[token] = 0 }
+    gameOverAcked[token] += 1
+    if (gameOverAcked[token] >= 2) {
+      log(`_Removing finished game_ **${token}** now that both players know it's over`)
+      delete gameOverAcked[token]
+      delete gamesInProgress[token]
+    }
+  }
   return res.send({
     status: state.gameOver ? 'GAME_OVER' : 'IN_PROGRESS',
     token,
