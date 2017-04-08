@@ -122,10 +122,11 @@ fresh@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.0.tgz#f474ca5e6a9246d6fd8e0953cfa9b9c805afa78e"
 
-hive-game-core@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/hive-game-core/-/hive-game-core-1.0.3.tgz#358a415e61ef04dea89b8b68c31d738fec4f5f46"
+hive-game-core@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/hive-game-core/-/hive-game-core-1.0.4.tgz#47e5b8bca69eb6688c89f55d15759efd703a1293"
   dependencies:
+    jshashes "^1.0.6"
     lodash "^4.17.4"
     shortid "^2.2.8"
 
@@ -149,6 +150,10 @@ inherits@2.0.3:
 ipaddr.js@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.3.0.tgz#1e03a52fdad83a8bbb2b25cbf4998b4cffcd3dec"
+
+jshashes@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/jshashes/-/jshashes-1.0.6.tgz#b04eb4ae8f9987b2d3ce00a6337c120543949bfd"
 
 lodash@^4.17.4:
   version "4.17.4"
