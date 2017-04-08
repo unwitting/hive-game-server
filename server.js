@@ -17,16 +17,20 @@ const waitingPlayers = {}
 app.use('*', (req, res, next) => {
   // TODO secure auth
   const playerId = req.headers['x-player-id']
-  if (!playerId) {
-    log(`_No player ID_ in headers, request ends here`)
-    return res.status(401).end()
-  }
   log(`_Got player ID_ from headers: **${playerId}**`)
   req.playerId = playerId
   next()
 })
 
-app.get('/game/free', (req, res) => {
+function requireAuth(req, res, next) {
+  if (!req.playerId) {
+    log(`_No player ID_ in headers, request ends here`)
+    return res.status(401).end()
+  }
+  next()
+}
+
+app.get(requireAuth, '/game/free', (req, res) => {
   log(`_Free game_ request from player **${req.playerId}**`)
   log(`_Creating_ new RemotePlayer(**${req.playerId}**)`)
   const remotePlayer = new RemotePlayer(req.playerId, { logFn: log })
@@ -71,7 +75,7 @@ app.get('/game/status/:token', (req, res) => {
   })
 })
 
-app.get('/game/:token/move/:move/:hash', (req, res) => {
+app.get(requireAuth, '/game/:token/move/:move/:hash', (req, res) => {
   const { token, move, hash } = req.params
   log(`_Move_ request for token **${token}** from player **${req.playerId}** with move string **${move}**`)
   const game = gamesInProgress[token]
