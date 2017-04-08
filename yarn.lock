@@ -122,9 +122,9 @@ fresh@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.0.tgz#f474ca5e6a9246d6fd8e0953cfa9b9c805afa78e"
 
-hive-game-core@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/hive-game-core/-/hive-game-core-1.0.6.tgz#38bda8a33c002c9acd6c2f46a8f3aa68ccce2eab"
+hive-game-core@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/hive-game-core/-/hive-game-core-1.0.7.tgz#62135205e7bb155859dbca59687043ca6d43d0b6"
   dependencies:
     jshashes "^1.0.6"
     lodash "^4.17.4"

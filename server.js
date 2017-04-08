@@ -57,7 +57,7 @@ app.get('/game/status/:token', (req, res) => {
   if (!game) {
     return res.status(404).end()
   }
-  return res.send({ status: 'IN_PROGRESS', state: game.state })
+  return res.send({ status: 'IN_PROGRESS', token, state: game.state })
 })
 
 app.get('/game/status/:token/ack/:hash', (req, res) => {
