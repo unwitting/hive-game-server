@@ -7,7 +7,9 @@ const { RemotePlayer } = require('./lib/player')
 const ua = require('universal-analytics')
 
 const app = express()
-const analytics = ua('UA-61069916-12', { https: true })
+
+if (!process.env.GA_ID) { throw 'You must specifiy a GA_ID environment variable for analytics' }
+const analytics = ua(process.env.GA_ID, { https: true })
 
 const gamesInProgress = {}
 const waitingPlayers = {}
@@ -87,6 +89,8 @@ app.get('/game/:token/move/:move/:hash', (req, res) => {
   }
 })
 
-app.listen(8000, () => {
-  log(`~~App listening~~ on port **8000**`)
+if (!process.env.PORT) { throw 'You must specifiy a PORT environment variable' }
+const port = parseInt(process.env.PORT, 10)
+app.listen(port, () => {
+  log(`~~App listening~~ on port **${port}**`)
 })
