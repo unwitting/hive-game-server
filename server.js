@@ -117,8 +117,7 @@ function cleanOutOutGames() {
   setTimeout(cleanOutOutGames, 5000)
 }
 
-if (!process.env.PORT) { throw 'You must specifiy a PORT environment variable' }
-const port = parseInt(process.env.PORT, 10)
+const port = 8000
 app.listen(port, () => {
   log(`~~App listening~~ on port **${port}**`)
   cleanOutOutGames()
