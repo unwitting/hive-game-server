@@ -36,9 +36,9 @@ app.get('/healthcheck', (req, res) => {
   analytics.event('Service', 'Healthcheck').send()
   return res.send({
     health: 'healthy',
-    gamesInProgress: gamesInProgress.length,
-    waitingPlayers: waitingPlayers.length,
-    gameOverAcked: gameOverAcked.length,
+    gamesInProgress: _.keys(gamesInProgress).length,
+    waitingPlayers: _.keys(waitingPlayers).length,
+    gameOverAcked: _.keys(gameOverAcked).length,
   })
 })
 
