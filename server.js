@@ -31,6 +31,17 @@ function requireAuth(req, res, next) {
   next()
 }
 
+app.get('/healthcheck', (req, res) => {
+  log(`~~Healthcheck~~`)
+  analytics.event('Service', 'Healthcheck').send()
+  return res.send({
+    health: 'healthy',
+    gamesInProgress: gamesInProgress.length,
+    waitingPlayers: waitingPlayers.length,
+    gameOverAcked: gameOverAcked.length,
+  })
+})
+
 app.get('/game/free', requireAuth, (req, res) => {
   log(`_Free game_ request from player **${req.playerId}**`)
   log(`_Creating_ new RemotePlayer(**${req.playerId}**)`)
@@ -114,7 +125,7 @@ function cleanOutOutGames() {
       }
     }
   } catch(e) {}
-  setTimeout(cleanOutOutGames, 5000)
+  setTimeout(cleanOutOutGames, 10000)
 }
 
 const port = 8000
