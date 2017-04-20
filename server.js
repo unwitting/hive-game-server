@@ -4,12 +4,11 @@ const shortid = require('shortid')
 const { log } = require('peasy-log')
 const { Game } = require('hive-game-core')
 const { RemotePlayer } = require('./lib/player')
-const ua = require('universal-analytics')
+const { AnalyticsClient } = require('./lib/analytics')
 
 const app = express()
 
-if (!process.env.GA_ID) { throw 'You must specifiy a GA_ID environment variable for analytics' }
-const analytics = ua(process.env.GA_ID, { https: true })
+const analytics = new AnalyticsClient()
 
 const gamesInProgress = {}
 const waitingPlayers = {}
@@ -33,7 +32,7 @@ function requireAuth(req, res, next) {
 
 app.get('/healthcheck', (req, res) => {
   log(`~~Healthcheck~~`)
-  analytics.event('Service', 'Healthcheck').send()
+  analytics.event('Service', 'Healthcheck')
   return res.send({
     health: 'healthy',
     gamesInProgress: _.keys(gamesInProgress).length,
@@ -60,7 +59,7 @@ app.get('/game/free', requireAuth, (req, res) => {
     const whitePlayer = [remotePlayer, matchedPlayer][whiteIndex]
     const blackPlayer = [remotePlayer, matchedPlayer][(whiteIndex + 1) % 2]
     const game = new Game(whitePlayer, blackPlayer, { logFn: log })
-    analytics.event('Games', 'Create game', game.id).send()
+    analytics.event('Games', 'Create game', game.id)
     delete waitingPlayers[matchedPlayerToken]
     gamesInProgress[matchedPlayerToken] = game
     game.begin()
