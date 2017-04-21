@@ -31,6 +31,9 @@ app.get('/healthcheck', (req, res) => {
   analytics.event('Service', 'Healthcheck')
   return res.send({
     health: 'healthy',
+    nFrames: GameFrame.getNumberOfFrames(),
+    nCompletedFrames: GameFrame.getNumberOfCompletedFrames(),
+    nWaitingFrames: GameFrame.getNumberOfWaitingFrames(),
   })
 })
 
