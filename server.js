@@ -43,9 +43,9 @@ app.get('/game/new', requireAuth, (req, res) => {
   log(`_Creating_ new RemotePlayer(**${req.playerId}**)`)
   const remotePlayer = new RemotePlayer(req.playerId, { logFn: log })
   if (GameFrame.anyWaitingFrames()) {
-    return res.send({ gameId: GameFrame.joinWaitingFrame(remotePlayer).id })
+    GameFrame.joinWaitingFrame(remotePlayer).then(frame => res.send({ gameId: frame.id }))
   } else {
-    return res.send({ gameId: GameFrame.createWaitingFrame(remotePlayer).id })
+    GameFrame.createWaitingFrame(remotePlayer).then(frame => res.send({ gameId: frame.id }))
   }
 })
 
@@ -61,9 +61,10 @@ app.get('/game/:gameId/move/:move/:hash', requireAuth, (req, res) => {
   const { gameId, move, hash } = req.params
   log(`_Move_ request for game ID **${gameId}** from player **${req.playerId}** with move string **${move}**`)
   try {
-    const status = GameFrame.applyMove(gameId, req.playerId, move, hash)
-    status.gameId = gameId
-    return res.send(status)
+    GameFrame.applyMove(gameId, req.playerId, move, hash).then(status => {
+      status.gameId = gameId
+      return res.send(status)
+    })
   } catch(e) {
     // TODO handle properly
     return res.status(400)
