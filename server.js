@@ -2,6 +2,7 @@ const _ = require('lodash')
 const express = require('express')
 const shortid = require('shortid')
 const { log } = require('peasy-log')
+const db = require('./lib/db')
 const { GameFrame } = require('./lib/game_frame')
 const { RemotePlayer } = require('./lib/player')
 const { AnalyticsClient } = require('./lib/analytics')
@@ -70,6 +71,10 @@ app.get('/game/:gameId/move/:move/:hash', requireAuth, (req, res) => {
 })
 
 const port = 8000
-app.listen(port, () => {
-  log(`~~App listening~~ on port **${port}**`)
+db.connect()
+.then(db => {
+  log(`_Starting app_ on port **${port}**`)
+  app.listen(port, () => {
+    log(`~~App listening~~ on port **${port}**`)
+  })
 })
